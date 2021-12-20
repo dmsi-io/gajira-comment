@@ -1,25 +1,28 @@
-const Jira = require('./common/net/Jira')
+const Jira = require('./common/net/Jira');
 
 module.exports = class {
-  constructor ({ githubEvent, argv, config }) {
+  constructor({ githubEvent, argv, config }) {
     this.Jira = new Jira({
       baseUrl: config.baseUrl,
       token: config.token,
       email: config.email,
-    })
+    });
 
-    this.config = config
-    this.argv = argv
-    this.githubEvent = githubEvent
+    this.config = config;
+    this.argv = argv;
+    this.githubEvent = githubEvent;
   }
 
-  async execute () {
-    const issueId = this.argv.issue || this.config.issue || null
-    const { comment } = this.argv
+  async execute() {
+    const issues = this.argv.issue || this.config.issue || null;
+    const { comment } = this.argv;
 
-    console.log(`Adding comment to ${issueId}: \n${comment}`)
-    await this.Jira.addComment(issueId, { body: comment })
+    const issueIds = issues?.split(',') || [];
+    for (const issueId of issueIds) {
+      console.log(`Adding comment to ${issueId}: \n${comment}`);
+      await this.Jira.addComment(issueId, { body: comment });
+    }
 
-    return {}
+    return {};
   }
-}
+};

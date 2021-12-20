@@ -17,7 +17,7 @@ module.exports = class {
     const issues = this.argv.issue || this.config.issue || null;
     const { comment } = this.argv;
 
-    const issueIds = issues?.split(',') || [];
+    const issueIds = typeof issues === 'string' ? issues.split(',') : [];
     for (const issueId of issueIds) {
       console.log(`Adding comment to ${issueId}: \n${comment}`);
       await this.Jira.addComment(issueId, { body: comment });

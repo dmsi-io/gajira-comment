@@ -17,6 +17,8 @@ module.exports = class {
     const issues = this.argv.issue || this.config.issue || null;
     const { comment } = this.argv;
     const allowRepeats = this.argv['allow-repeats'];
+
+    console.log(this.argv, this.config);
     console.log('allowRepeats', allowRepeats);
 
     const issueIds = typeof issues === 'string' ? issues.split(',') : [];

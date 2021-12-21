@@ -19,10 +19,17 @@ module.exports = class {
 
     const issueIds = typeof issues === 'string' ? issues.split(',') : [];
     for (const issueId of issueIds) {
-      // console.log(`Adding comment to ${issueId}: \n${comment}`);
-      // await this.Jira.addComment(issueId, { body: comment });
       const resp = await this.Jira.getIssue(issueId);
       console.log(resp);
+      console.log(resp.fields);
+      console.log(resp.fields.comment);
+      console.log(resp.fields.comment.comments);
+      console.log(JSON.stringify(resp.fields.comment.comments));
+
+      if (resp.fields.comment.comments.includes(comment)) return {};
+
+      console.log(`Adding comment to ${issueId}: \n${comment}`);
+      await this.Jira.addComment(issueId, { body: comment });
     }
 
     return {};

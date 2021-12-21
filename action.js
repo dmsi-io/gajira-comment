@@ -15,11 +15,7 @@ module.exports = class {
 
   async execute() {
     const issues = this.argv.issue || this.config.issue || null;
-    const { comment } = this.argv;
-    const allowRepeats = this.argv['allow-repeats'];
-
-    console.log(this.argv, this.config);
-    console.log('allowRepeats', allowRepeats);
+    const { comment, allowRepeats } = this.argv;
 
     const issueIds = typeof issues === 'string' ? issues.split(',') : [];
     for (const issueId of issueIds) {

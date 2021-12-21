@@ -19,8 +19,10 @@ module.exports = class {
 
     const issueIds = typeof issues === 'string' ? issues.split(',') : [];
     for (const issueId of issueIds) {
-      console.log(`Adding comment to ${issueId}: \n${comment}`);
-      await this.Jira.addComment(issueId, { body: comment });
+      // console.log(`Adding comment to ${issueId}: \n${comment}`);
+      // await this.Jira.addComment(issueId, { body: comment });
+      const resp = await this.Jira.getIssue(issueId);
+      console.log(resp);
     }
 
     return {};

@@ -26,7 +26,10 @@ module.exports = class {
       console.log(resp.fields.comment.comments);
       console.log(JSON.stringify(resp.fields.comment.comments));
 
-      if (resp.fields.comment.comments.includes(comment)) return {};
+      if (resp.fields.comment.comments.find((commentObj) => commentObj.body === comment) !== undefined) {
+        console.log(`Comment already exists on issue: ${issueId}`);
+        return {};
+      }
 
       console.log(`Adding comment to ${issueId}: \n${comment}`);
       await this.Jira.addComment(issueId, { body: comment });

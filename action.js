@@ -26,7 +26,7 @@ module.exports = class {
         resp.fields.comment.comments.find((commentObj) => commentObj.body === comment) !== undefined
       ) {
         console.log(`Comment already exists on issue: ${issueId}`);
-        return {};
+        continue;
       }
 
       console.log(`Adding comment to ${issueId}: \n${comment}`);

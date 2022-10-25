@@ -18,21 +18,23 @@ module.exports = class {
     const { comment, allowRepeats } = this.argv;
 
     const issueIds = typeof issues === 'string' ? issues.split(',') : [];
-    for (const issueId of issueIds) {
-      try {
-        if (allowRepeats === 'false') {
-          const resp = await this.Jira.getIssue(issueId);
+    if (issueIds.length > 0) {
+      for (const issueId of issueIds) {
+        try {
+          if (allowRepeats === 'false') {
+            const resp = await this.Jira.getIssue(issueId);
 
-          if (resp.fields.comment.comments.find((commentObj) => commentObj.body === comment) !== undefined) {
-            console.log(`Comment already exists on issue: ${issueId}`);
-            continue;
+            if (resp.fields.comment.comments.find((commentObj) => commentObj.body === comment) !== undefined) {
+              console.log(`Comment already exists on issue: ${issueId}`);
+              continue;
+            }
           }
-        }
 
-        console.log(`Adding comment to ${issueId}: \n${comment}`);
-        await this.Jira.addComment(issueId, { body: comment });
-      } catch (err) {
-        console.log(`Failed to add comment on ${issueId}:`, err);
+          console.log(`Adding comment to ${issueId}: \n${comment}`);
+          await this.Jira.addComment(issueId, { body: comment });
+        } catch (err) {
+          console.log(`Failed to add comment on ${issueId}:`, err);
+        }
       }
     }
 
